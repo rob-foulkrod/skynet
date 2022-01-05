@@ -13,5 +13,14 @@ jobs:
       - name: Checkout local
         uses: actions/checkout@v2
 
-      - run: |
-          echo "This is working"
+      - name: Install DOTNET on runner
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+
+      - name: Build app
+        run: |
+          dotnet restore
+          dotnet build -c Release --no-restore
+          dotnet test
+          dotnet publish -c Release -o ./out
